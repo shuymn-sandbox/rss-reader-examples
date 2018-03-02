@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const mix = require("laravel-mix"); // eslint-disable-line import/no-extraneous-dependencies
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +11,6 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.sass', 'public/css');
+mix
+  .js("resources/assets/js/app.js", "public/js")
+  .sass("resources/assets/scss/app.scss", "public/css");
