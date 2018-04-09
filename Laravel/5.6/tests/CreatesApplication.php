@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Hashing\HashManager;
 
 trait CreatesApplication
 {
@@ -14,11 +14,11 @@ trait CreatesApplication
      */
     public function createApplication()
     {
-        $app = require __DIR__.'/../bootstrap/app.php';
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = require __DIR__ . '/../bootstrap/app.php';
 
         $app->make(Kernel::class)->bootstrap();
-
-        Hash::driver('bcrypt')->setRounds(4);
+        $app->make(HashManager::class)->driver('bcrypt')->setRounds(4);
 
         return $app;
     }
