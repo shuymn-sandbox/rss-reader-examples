@@ -14,3 +14,6 @@
 /** @var \Illuminate\Routing\Router $router */
 
 $router->get('/', 'IndexController@index')->name('home');
+
+$router->auth();
+
