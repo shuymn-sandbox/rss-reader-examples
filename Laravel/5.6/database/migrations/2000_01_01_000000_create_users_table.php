@@ -23,6 +23,11 @@ class CreateUsersTable extends Migration
             ->create($this->table, function (Blueprint $table): void {
                 $table->increments('id');
                 $table->string('name')->unique();
+                $table->string('email');
+                $table->string('password');
+                $table->string('profile_image');
+                $table->string('description');
+                $table->string('url');
                 $table->timestamps();
             });
     }
