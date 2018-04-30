@@ -1,13 +1,13 @@
 @extends('layouts.app')
-
 @section('title', config('app.name'))
-
 @section('header')
-    @header @endheader
+    @header(['username' => $username ]) @endheader
 @endsection
 
 @section('content')
-    <p class="center-text">foobar</p>
+    @foreach($entries as $entry)
+        <p>{{ $entry->title }}</p>
+    @endforeach
 @endsection
 
 @section('footer')
