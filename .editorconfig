@@ -13,3 +13,7 @@ max_line_length = null
 [*.md]
 
 trim_trailing_whitespace = false
+
+[*.php]
+
+indent_size = 4
