@@ -94,4 +94,8 @@ a {
     margin: 20px 0;
     padding: 30px;
   }
+
+  &-center_auth {
+    grid-column: 1 / 4;
+  }
 }
