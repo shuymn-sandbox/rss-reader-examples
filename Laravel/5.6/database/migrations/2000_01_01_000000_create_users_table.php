@@ -26,9 +26,10 @@ class CreateUsersTable extends Migration
                 $table->string('nickname');
                 $table->string('email');
                 $table->string('password');
-                $table->string('profile_image');
-                $table->string('description');
-                $table->string('url');
+                $table->string('profile_image')->default('');
+                $table->string('description')->default('');
+                $table->string('url')->default('');
+                $table->rememberToken();
                 $table->timestamps();
             });
     }

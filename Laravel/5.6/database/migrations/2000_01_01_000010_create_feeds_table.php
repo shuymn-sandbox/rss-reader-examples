@@ -26,7 +26,6 @@ class CreateFeedsTable extends Migration
                 $table->string('title');
                 $table->string('link');
                 $table->string('description');
-                $table->rememberToken();
                 $table->timestamps();
 
                 $table->index(['user_id', 'url']);

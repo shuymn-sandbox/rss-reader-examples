@@ -24,11 +24,9 @@ class CreateEntriesTable extends Migration
                 $table->unsignedInteger('feed_id')->unique();
                 $table->string('title');
                 $table->string('link');
-                $table->string('title');
-                $table->string('link');
                 $table->string('description');
-                $table->timestamp('entry_published_at');
-                $table->timestamp('entry_updated_at');
+                $table->timestamp('entry_published_at')->nullable();
+                $table->timestamp('entry_updated_at')->nullable();
                 $table->timestamps();
 
                 $table->foreign('feed_id')->references('id')->on('feeds');
