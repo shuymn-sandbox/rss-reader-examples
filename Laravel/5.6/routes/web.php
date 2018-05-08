@@ -47,6 +47,7 @@ $router->group(['middleware' => ['web', 'auth.valid']], function (Router $router
     ]);
 
     $router->post('/feed', [
+        'as' => 'post.feed',
         'uses' => Feed\PostFeed::class
     ]);
 
