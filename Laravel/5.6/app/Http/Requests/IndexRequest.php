@@ -1,17 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Requests\Feed;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class StoreRequest
- * @package App\Http\Requests\Feed
+ * Class IndexRequest
+ * @package App\Http\Requests
  */
-class StoreRequest extends FormRequest
+class IndexRequest extends FormRequest
 {
     /**
+     * Determine if the user is authorized to make this request.
+     *
      * @return bool
      */
     public function authorize(): bool
@@ -20,12 +22,14 @@ class StoreRequest extends FormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
      * @return array
      */
     public function rules(): array
     {
         return [
-            'url' => 'required|string|active_url',
+            //
         ];
     }
 }

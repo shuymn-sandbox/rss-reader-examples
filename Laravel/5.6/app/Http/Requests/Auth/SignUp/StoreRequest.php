@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Auth\SignUp;
 
+use App\Rules\UserNameRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -25,8 +26,8 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|alpha_dash|max:255|unique:users',
-            'nickname' => 'required|string|max:255',
+            'username' => ['required', 'max:31', 'unique:users', new UserNameRule],
+            'nickname' => 'required|string|max:31',
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8|confirmed',
         ];
