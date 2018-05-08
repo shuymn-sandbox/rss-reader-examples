@@ -1,0 +1,33 @@
+version: "3"
+services:
+
+  mysql:
+    build: ./docker/mysql
+    env_file:
+      - ./docker/mysql/.env
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+# [WIP]
+#
+#  web:
+#    build: ./docker/web
+#    command: bundle exec rails server
+#    volumes:
+#      - .:/app
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      - mysql
+#
+#  spring:
+#    build: ./docker/web
+#    command: bundle exec spring server
+#    volumes:
+#      - .:/app
+#    depends_on:
+#      - mysql
+#    tty: false
+#    stdin_open: false
