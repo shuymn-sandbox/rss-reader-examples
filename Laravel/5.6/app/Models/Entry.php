@@ -5,10 +5,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Entry extends Model
+/**
+ * Class Entry
+ * @package App\Models
+ */
+final class Entry extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'entries';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'feed_id',
         'title',
