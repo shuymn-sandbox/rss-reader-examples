@@ -4,21 +4,39 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth\LogOut;
 
 use App\Http\Controllers\Controller;
-use App\Http\Responses\Auth\LogOut\IndexResponse;
-use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Auth\AuthManager;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class GetLogOut
  * @package App\Http\Controllers
  */
-class GetLogOut extends Controller
+final class GetLogOut extends Controller
 {
     /**
-     * @param IndexResponse $response
-     * @return Responsable
+     * @var \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
      */
-    public function __invoke(IndexResponse $response): Responsable
+    private $auth;
+
+    /**
+     * GetLogOut constructor.
+     * @param AuthManager $authManager
+     */
+    public function __construct(AuthManager $authManager)
     {
-        return $response;
+        $this->auth = $authManager->guard('web');
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function __invoke(Request $request): RedirectResponse
+    {
+        $this->auth->logout();
+        $request->session()->invalidate();
+
+        return redirect(route('home'));
     }
 }

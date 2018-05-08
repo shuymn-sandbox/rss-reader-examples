@@ -7,47 +7,59 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\SignUp\StoreRequest;
 use App\Http\Responses\Auth\SignUp\StoreResponse;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Hashing\HashManager;
 use Illuminate\Routing\Redirector;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class PostSignUp
  * @package App\Http\Controllers\Auth\SignUp
  */
-class PostSignUp extends Controller
+final class PostSignUp extends Controller
 {
-    /** @var \Illuminate\Hashing\BcryptHasher */
-    protected $hash;
+    /**
+     * @var \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     */
+    private $auth;
+
+    /**
+     * @var \Illuminate\Hashing\BcryptHasher
+     */
+    private $hash;
 
     /**
      * PostSignUp constructor.
+     * @param AuthManager $authManager
      * @param HashManager $hashManager
      */
-    public function __construct(HashManager $hashManager)
+    public function __construct(AuthManager $authManager ,HashManager $hashManager)
     {
+        $this->auth = $authManager->guard('web');
         $this->hash = $hashManager->createBcryptDriver();
     }
 
     /**
-     * @param AuthManager $authManager
-     * @param Redirector $redirector
      * @param StoreRequest $request
-     * @return Responsable
+     * @param UserService $service
+     * @return RedirectResponse
+     * @throws \Exception
      */
-    public function __invoke(AuthManager $authManager, Redirector $redirector, StoreRequest $request): Responsable
+    public function __invoke(StoreRequest $request, UserService $service): RedirectResponse
     {
-        $data = $request->all();
+        $username = $request->get('username');
+        $nickname = $request->get('nickname');
+        $email = $request->get('email');
+        $password = $this->hash->make($request->get('password'));
 
-        /** @var User $user */
-        $user = User::create([
-            'username' => $data['username'],
-            'nickname' => $data['nickname'],
-            'email' => $data['email'],
-            'password' => $this->hash->make($data['password']),
-        ]);
+        try {
+            $service->register($username, $nickname, $email, $password);
 
-        return new StoreResponse($authManager, $redirector, $user);
+            return redirect(route('home'));
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

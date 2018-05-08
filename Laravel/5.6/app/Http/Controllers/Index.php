@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexRequest;
 use App\Http\Responses\IndexResponse;
-use App\Models\Entry;
-use Illuminate\Auth\AuthManager;
+use App\Services\EntryService;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Contracts\View\Factory;
 
 /**
  * Class Index
@@ -16,14 +15,16 @@ use Illuminate\Contracts\View\Factory;
 class Index extends Controller
 {
     /**
-     * @param AuthManager $authManager
-     * @param Factory $view
+     * @param IndexRequest $request
+     * @param IndexResponse $response
+     * @param EntryService $service
      * @return Responsable
      */
-    public function __invoke(AuthManager $authManager, Factory $view): Responsable
+    public function __invoke(IndexRequest $request, IndexResponse $response, EntryService $service): Responsable
     {
-        $entries = Entry::all();
+        $entries = $service->paginate();
+        $response->setEntries($entries);
 
-        return new IndexResponse($authManager, $entries, $view);
+        return $response;
     }
 }

@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Auth\LogIn;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LogIn\StoreRequest;
+use App\Http\Responses\Auth\LogIn\StoreFailedResponse;
 use App\Http\Responses\Auth\LogIn\StoreResponse;
-use App\Http\Responses\Feed\StoreFailedResponse;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -39,12 +40,13 @@ class PostLogIn extends Controller
     /**
      * @param Redirector $redirector
      * @param StoreRequest $request
+     * @param Translator $translator
      * @return Responsable
      */
-    public function __invoke(Redirector $redirector, StoreRequest $request): Responsable
+    public function __invoke(Redirector $redirector, StoreRequest $request, Translator $translator): Responsable
     {
         if (!$this->attempt($request)) {
-            $messageBag = $this->validator->errors()->add('email', __('auth.failed'));
+            $messageBag = $this->validator->errors()->add('email', $translator->trans('auth.failed'));
 
             return new StoreFailedResponse($messageBag, $redirector);
         }

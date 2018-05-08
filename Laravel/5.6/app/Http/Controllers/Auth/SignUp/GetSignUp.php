@@ -11,7 +11,7 @@ use Illuminate\Contracts\Support\Responsable;
  * Class GetSignUp
  * @package App\Http\Controllers\Auth\SignUp
  */
-class GetSignUp extends Controller
+final class GetSignUp extends Controller
 {
     /**
      * @param IndexResponse $response
