@@ -1,4 +1,10 @@
-@extends('layouts.app')
+@inject('config', 'config')
+@inject('translator','translator')
+@inject('url','url')
+
+@extends('layouts.auth', ['locale' => $config->get('app.locale')])
+
+@section('title', $config->get('app.name') . ' - ' . $translator->trans('messages.feed.create.page-title'))
 
 @section('content')
     @if (count($errors) > 0)
@@ -12,25 +18,18 @@
     @endif
 
     <div>
-        <form method="post" action="{{ route('feed') }}">
+        <form method="post" action="{{ $url->route('post.feed') }}">
             @csrf
 
             <div>
-                <label for="url">{{ __('messages.feed.create.url') }}</label>
+                <label for="url">{{ $translator->trans('messages.feed.create.url') }}</label>
                 <div>
                     <input type="url" name="url" required autofocus>
                 </div>
             </div>
 
             <div>
-                <label for="title">{{ __('messages.feed.create.title') }}</label>
-                <div>
-                    <input type="text" name="title" required>
-                </div>
-            </div>
-
-            <div>
-                <button type="submit">{{ __('messages.feed.create.post') }}</button>
+                <button type="submit">{{ $translator->trans('messages.feed.create.post') }}</button>
             </div>
         </form>
     </div>

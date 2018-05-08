@@ -1,7 +1,11 @@
-@extends('layouts.app')
-@section('title', config('app.name'))
+@inject('config', 'config')
+
+@extends('layouts.app', ['locale' => $config->get('app.locale')])
+
+@section('title', $config->get('app.name'))
+
 @section('header')
-    @header(['username' => $username ]) @endheader
+    @header(['name' => $name ]) @endheader
 @endsection
 
 @section('content')

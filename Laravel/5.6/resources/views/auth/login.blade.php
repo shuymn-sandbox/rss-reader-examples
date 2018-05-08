@@ -1,4 +1,12 @@
-@extends('layouts.auth')
+@inject('config', 'config')
+@inject('request', 'request')
+@inject('translator','translator')
+@inject('url','url')
+
+@extends('layouts.auth', ['locale' => $config->get('app.locale')])
+
+@section('title', $config->get('app.name') . ' - ' . $translator->trans('messages.signup.title'))
+
 @section('content')
     @if (count($errors) > 0)
         <div>
@@ -11,18 +19,18 @@
     @endif
 
     <div>
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ $url->route('login') }}">
             @csrf
 
             <div>
-                <label for="email">{{ __('messages.login.email') }}</label>
+                <label for="email">{{ $translator->trans('messages.login.email') }}</label>
                 <div>
-                    <input type="email" name="email" value="{{ old('email') }}" required>
+                    <input type="email" name="email" value="{{ $request->old('email') }}" required>
                 </div>
             </div>
 
             <div>
-                <label for="password">{{ __('messages.login.password') }}</label>
+                <label for="password">{{ $translator->trans('messages.login.password') }}</label>
 
                 <div>
                     <input type="password" name="password" required>
@@ -31,13 +39,13 @@
 
             <div>
                 <label>
-                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                    {{ __('messages.login.remember') }}
+                    <input type="checkbox" name="remember" {{ $request->old('remember') ? 'checked' : '' }}>
+                    {{ $translator->trans('messages.login.remember') }}
                 </label>
             </div>
 
             <div>
-                <button type="submit">{{ __('messages.login.submit') }}</button>
+                <button type="submit">{{ $translator->trans('messages.login.submit') }}</button>
             </div>
         </form>
     </div>
