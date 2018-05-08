@@ -21,7 +21,8 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "./resources/lang/en/EnglishConst.php"
         ],
         "psr-4": {
             "App\\": "app/"
@@ -48,6 +49,9 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
+        ],
+        "test": [
+          "phpunit --colors --group controller"
         ]
     },
     "config": {

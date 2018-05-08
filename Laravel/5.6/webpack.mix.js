@@ -13,4 +13,4 @@ const mix = require("laravel-mix"); // eslint-disable-line import/no-extraneous-
 
 mix
   .js("resources/assets/js/app.js", "public/js")
-  .sass("resources/assets/scss/app.scss", "public/css");
+  .sass("resources/assets/sass/app.scss", "public/css");

@@ -1,13 +1,17 @@
-@extends('layouts.app')
+@inject('config', 'config')
 
-@section('title', config('app.name'))
+@extends('layouts.app', ['locale' => $config->get('app.locale')])
+
+@section('title', $config->get('app.name'))
 
 @section('header')
-    @header @endheader
+    @header(['name' => $name ]) @endheader
 @endsection
 
 @section('content')
-    <p class="center-text">foobar</p>
+    @foreach($entries as $entry)
+        <p>{{ $entry->title }}</p>
+    @endforeach
 @endsection
 
 @section('footer')

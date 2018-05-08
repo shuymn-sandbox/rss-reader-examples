@@ -8,15 +8,6 @@ use Illuminate\Routing\Router;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers';
-
-    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
@@ -34,26 +25,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $this->mapWebRoutes($router);
-    }
-
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @param Router $router
-     * @return void
-     */
-    protected function mapWebRoutes(Router $router)
-    {
-        $attributes = [
-            'middleware' => 'web',
-            'namespace' => $this->namespace
+        $paths = [
+            'routes/web.php'
         ];
 
-        $router->group($attributes, function (Router $router) {
-            require base_path('routes/web.php');
-        });
+        foreach ($paths as $path) {
+            require_once base_path($path);
+        }
     }
 }

@@ -22,7 +22,14 @@ class CreateUsersTable extends Migration
             ->getSchemaBuilder()
             ->create($this->table, function (Blueprint $table): void {
                 $table->increments('id');
-                $table->string('name')->unique();
+                $table->string('username')->unique();
+                $table->string('nickname');
+                $table->string('email');
+                $table->string('password');
+                $table->string('profile_image')->default('');
+                $table->string('description')->default('');
+                $table->string('url')->default('');
+                $table->rememberToken();
                 $table->timestamps();
             });
     }
