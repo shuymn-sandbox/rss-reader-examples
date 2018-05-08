@@ -3,22 +3,35 @@ declare(strict_types=1);
 
 namespace App\Http\Responses\Feed;
 
-use Illuminate\Contracts\Support\Responsable;
+use App\Http\Responses\IndexResponseInterface;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Response;
 
-class IndexResponse implements Responsable
+/**
+ * Class IndexResponse
+ * @package App\Http\Responses\Feed
+ */
+class IndexResponse implements IndexResponseInterface
 {
+    /** @var \App\Models\Feed[] */
+    protected $feeds;
+
+    /** @var \App\Models\User */
+    protected $user;
+
     /** @var Factory */
-    protected $factory;
+    protected $view;
 
     /**
      * IndexResponse constructor.
-     * @param Factory $factory
+     * @param AuthManager $authManager
+     * @param Factory $view
      */
-    public function __construct(Factory $factory)
+    public function __construct(AuthManager $authManager, Factory $view)
     {
-        $this->factory = $factory;
+        $this->user = $authManager->guard('web')->user();
+        $this->view = $view;
     }
 
     /**
@@ -30,7 +43,26 @@ class IndexResponse implements Responsable
     public function toResponse($request): Response
     {
         return new Response(
-            $this->factory->make('feed')
+            $this->view->make('feed.index', $this->createResponseData())
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function createResponseData(): array
+    {
+        return [
+            'feeds' => $this->feeds,
+            'name' => is_null($this->user) ? '' : $this->user->getName()
+        ];
+    }
+
+    /**
+     * @param array $feeds
+     */
+    public function setFeeds(array $feeds): void
+    {
+        $this->feeds = $feeds;
     }
 }

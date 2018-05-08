@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Responses\Feed;
+namespace App\Http\Responses\Auth\LogIn;
 
 use Illuminate\Contracts\Support\MessageProvider;
 use Illuminate\Contracts\Support\Responsable;
@@ -10,7 +10,7 @@ use Illuminate\Routing\Redirector;
 
 /**
  * Class StoreFailedResponse
- * @package App\Http\Responses\Feed
+ * @package App\Http\Responses\Auth\LogIn
  */
 class StoreFailedResponse implements Responsable
 {

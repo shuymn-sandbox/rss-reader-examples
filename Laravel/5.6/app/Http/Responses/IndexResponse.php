@@ -7,7 +7,6 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
 
 /**
  * Class IndexResponse
@@ -15,10 +14,10 @@ use Illuminate\Support\Collection;
  */
 class IndexResponse implements Responsable
 {
-    /** @var \App\Models\User */
+    /** @var \App\Models\User|null */
     protected $user;
 
-    /** @var \App\Models\Entry[]|Collection */
+    /** @var \App\Models\Entry[] */
     protected $entries;
 
     /** @var Factory */
@@ -27,13 +26,11 @@ class IndexResponse implements Responsable
     /**
      * IndexResponse constructor.
      * @param AuthManager $authManager
-     * @param Collection $entries
      * @param Factory $view
      */
-    public function __construct(AuthManager $authManager, Collection $entries, Factory $view)
+    public function __construct(AuthManager $authManager, Factory $view)
     {
         $this->user = $authManager->guard('web')->user();
-        $this->entries = $entries;
         $this->view = $view;
     }
 
@@ -46,10 +43,26 @@ class IndexResponse implements Responsable
     public function toResponse($request): Response
     {
         return new Response(
-            $this->view->make('index', [
-                'entries' => $this->entries,
-                'username' => $this->user->username
-            ])
+            $this->view->make('index', $this->createResponseData())
         );
+    }
+
+    /**
+     * @return array
+     */
+    private function createResponseData(): array
+    {
+        return [
+            'entries' => $this->entries,
+            'name' => is_null($this->user) ? '' : $this->user->getName()
+        ];
+    }
+
+    /**
+     * @param array $entries
+     */
+    public function setEntries(array $entries): void
+    {
+        $this->entries = $entries;
     }
 }
